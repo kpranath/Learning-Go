@@ -1,0 +1,36 @@
+package main
+
+import "fmt"
+
+func main() {
+	conferenceName := "Go Conference"
+	const conferenceTickets  = 50
+	var remainingTickets uint = 50
+
+	// fmt.Printf("ConferenceTickets is %T, remainingTickets is %T, conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
+
+	fmt.Printf("Welcome to %v booking application\n", conferenceName)
+	fmt.Printf("We have total of %v tickets and  %v are still available.\n", conferenceTickets, remainingTickets)
+	fmt.Println("Get your tickets here to attend the event")
+
+
+	var firstName string
+	var lastName string
+	var emailID string
+	var userTickets uint
+	//ask the user for their name
+	fmt.Println("Enter your name: ")
+	fmt.Scan(&firstName)
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+	fmt.Println("Enter your email address: ")
+	fmt.Scan(&emailID)
+	fmt.Println("Enter number of tickets:")
+	fmt.Scan(&userTickets)
+
+	fmt.Printf("Thank you %v %v foir booking %v tickets. You will recieve a confirmation email at %v\n", firstName,lastName, userTickets, emailID)
+	
+	remainingTickets = remainingTickets - userTickets
+
+	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+}
