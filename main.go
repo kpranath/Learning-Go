@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 var conferenceName = "Go Conference"
 const conferenceTickets  = 50
 var remainingTickets uint = 50
-var bookings []string
+var bookings = make([]map[string]string, 0)
+
+
 
 func main() {
 	
@@ -34,6 +36,7 @@ func main() {
 			if remainingTickets == 0 {
 				//end program
 				fmt.Println("Conference is booked out. Come back next year.")
+				fmt.Printf("List of Bookings: %v\n", bookings)
 				break
 			}
 		} else {
@@ -62,19 +65,9 @@ func greetUsers() {
 func getFirstNames() []string{
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking) 
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames
-}
-
-//Function to check user input and validate correct type
-func validateUserInput(firstName string, lastName string, emailID string, userTickets uint, remainingTickets uint) (bool, bool, bool) {
-	var isValidName bool = len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(emailID, "@")
-	isValidTicket := userTickets > 0 && userTickets <= remainingTickets
-
-	return isValidName, isValidEmail,isValidTicket
 }
 
 //Function to get user input
@@ -98,7 +91,15 @@ func getUserInput() (string, string,string,uint){
 //Function to book ticket
 func bookTicket(userTickets uint, firstName string, lastName string, emailID string){
 	remainingTickets = remainingTickets - userTickets
-	bookings = append(bookings, firstName + " " + lastName)
+
+	//create a map for user
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["emailID"] = emailID
+	userData["no.ofTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	
+	bookings = append(bookings, userData)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName,lastName, userTickets, emailID)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
